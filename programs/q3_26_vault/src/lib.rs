@@ -12,7 +12,7 @@ pub use state::*;
 declare_id!("aNksHVU3gU1mjCPtTBsVk9S7qokAUvXfotB2jBxQQvv");
 
 #[program]
-pub mod q2_26_vault {
+pub mod q3_26_vault {
     use super::*;
 
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {

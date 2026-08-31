@@ -5,7 +5,7 @@ use {
         InstructionData, ToAccountMetas,
     },
     litesvm::LiteSVM,
-    q2_26_vault::{STATE, VAULT_SEED},
+    q3_26_vault::{STATE, VAULT_SEED},
     solana_keypair::Keypair,
     solana_message::{Message, VersionedMessage},
     solana_signer::Signer,
@@ -26,7 +26,7 @@ fn send(svm: &mut LiteSVM, payer: &Keypair, ix: Instruction) {
 
 #[test]
 fn test() {
-    let program_id = q2_26_vault::id();
+    let program_id = q3_26_vault::id();
     let user = Keypair::new();
     let (vault_state, _) =
         Pubkey::find_program_address(&[STATE, user.pubkey().as_ref()], &program_id);
@@ -36,7 +36,7 @@ fn test() {
     let mut svm = LiteSVM::new();
     let bytes = include_bytes!(concat!(
         env!("CARGO_TARGET_TMPDIR"),
-        "/../deploy/q2_26_vault.so"
+        "/../deploy/q3_26_vault.so"
     ));
     svm.add_program(program_id, bytes).unwrap();
     svm.airdrop(&user.pubkey(), 2_000_000_000).unwrap();
@@ -46,8 +46,8 @@ fn test() {
         &user,
         Instruction::new_with_bytes(
             program_id,
-            &q2_26_vault::instruction::Initialize {}.data(),
-            q2_26_vault::accounts::Initialize {
+            &q3_26_vault::instruction::Initialize {}.data(),
+            q3_26_vault::accounts::Initialize {
                 user: user.pubkey(),
                 vault_state,
                 vault,
@@ -73,11 +73,11 @@ fn test() {
         &user,
         Instruction::new_with_bytes(
             program_id,
-            &q2_26_vault::instruction::Deposit {
+            &q3_26_vault::instruction::Deposit {
                 amount: DEPOSIT_LAMPORTS,
             }
             .data(),
-            q2_26_vault::accounts::Deposit {
+            q3_26_vault::accounts::Deposit {
                 user: user.pubkey(),
                 vault_state,
                 vault,
@@ -98,11 +98,11 @@ fn test() {
     //     &user,
     //     Instruction::new_with_bytes(
     //         program_id,
-    //         &q2_26_vault::instruction::Withdraw {
+    //         &q3_26_vault::instruction::Withdraw {
     //             amount: WITHDRAW_LAMPORTS,
     //         }
     //         .data(),
-    //         q2_26_vault::accounts::Withdraw {
+    //         q3_26_vault::accounts::Withdraw {
     //             user: user.pubkey(),
     //             vault_state,
     //             vault,
@@ -123,8 +123,8 @@ fn test() {
     //     &user,
     //     Instruction::new_with_bytes(
     //         program_id,
-    //         &q2_26_vault::instruction::Close {}.data(),
-    //         q2_26_vault::accounts::Close {
+    //         &q3_26_vault::instruction::Close {}.data(),
+    //         q3_26_vault::accounts::Close {
     //             user: user.pubkey(),
     //             vault_state,
     //             vault,
